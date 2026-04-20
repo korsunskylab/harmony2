@@ -67,11 +67,11 @@ fi
 echo "checking for LAPACK procedures (spotrf_, sgesv_)..."
 
 cat > "${CONFTMP}/lapack_test.c" << 'LAPACK_EOF'
-extern void sgesv2_(int, int, float*, int, int*, float*, int, int*);
+extern void sgesv_(int, int, float*, int, int*, float*, int, int*);
 int main(void) {
     float A = 0.0f, B = 0.0f, C = 0.0f;
     int dim=1, res = 0;
-    sgesv2_(1, 1, &A, 1, &dim, &B, 1, &res);
+    sgesv_(1, 1, &A, 1, &dim, &B, 1, &res);
     return 0;
 }
 LAPACK_EOF
