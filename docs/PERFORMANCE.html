@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">harmony</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1</span>
       </span>
     </div>
 
@@ -65,25 +65,18 @@
 <p>R distributions can be bundled with different scientific computing libraries. This can drastically impact harmony’s performance. Rstudio comes by default with BLAS. In contrast, conda distributions of R are bundled with OPENBLAS. Overall, our benchmarks show that <strong>harmony+OPENBLAS is substantially faster compared harmony+BLAS</strong>. Therefore users with large datasets will benefit using OPENBLAS.</p>
 </div>
 <div class="section level1">
-<h1 id="windows-performance">Windows Performance<a class="anchor" aria-label="anchor" href="#windows-performance"></a></h1>
+<h1 id="using-openblas-on-windows">Using OpenBLAS on Windows<a class="anchor" aria-label="anchor" href="#using-openblas-on-windows"></a></h1>
 <p>Harmony, was pretuned to just install in windows R installations. By default, R for Windows uses BLAS and LAPACK libraries which can not be utilized by armadillo.</p>
 <p>See this <a href="https://github.com/david-cortes/R-openblas-in-windows" class="external-link">tutorial</a> for instructions on getting R for Windows to use OpenBLAS.</p>
-<p>Once OpenBLAS is installed, harmony needs to be configured as follows (rtools are required too):</p>
-<ol style="list-style-type: decimal"><li>download harmony locally from github</li>
-</ol><div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/immunogenomics/harmony/</span></code></pre></div>
-<ol start="2" style="list-style-type: decimal"><li><p>remove the options -DARMA_DONT_USE_BLAS -DARMA_DONT_USE_LAPACK from src/Makevars.win</p></li>
-<li><p>re-install package using devtools</p></li>
-</ol><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_local.html" class="external-link">install_local</a></span><span class="op">(</span><span class="st">"&lt;harmony-directory&gt;"</span>, force<span class="op">=</span><span class="cn">T</span>, upgrade<span class="op">=</span><span class="cn">F</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level1">
 <h1 id="install-openblas-in-non-conda-environment-linux">Install OpenBLAS in non-conda environment (linux)<a class="anchor" aria-label="anchor" href="#install-openblas-in-non-conda-environment-linux"></a></h1>
 <p>Install <a href="https://prdm0.github.io/ropenblas/" class="external-link">ropenblas</a> from CRAN:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"ropenblas"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="conda-environment">Conda environment<a class="anchor" aria-label="anchor" href="#conda-environment"></a></h2>
-<p>Conda environments come by default with openblas so no action is required.</p>
+<p>Conda environments ships with openblas so no action is required.</p>
 </div>
 <div class="section level2">
 <h2 id="validate-openblas">Validate openblas<a class="anchor" aria-label="anchor" href="#validate-openblas"></a></h2>
@@ -96,34 +89,34 @@
 </div>
 <div class="section level1">
 <h1 id="openmp-support">OpenMP support<a class="anchor" aria-label="anchor" href="#openmp-support"></a></h1>
-<p><a href="https://arma.sourceforge.net/faq.html#speed" class="external-link">Armadillo can leverage the OpenMP backend</a> to provide multithread support for its operations. Overall, performance benefits are relatively small.</p>
-<p>OpenBLAS by default ships with the ‘pthreads’ backend for multi-threading, but it offers a faster version based on OpenMP. For better speed, it’s possible to use the OpenMP which will allow for better control of multithreading support.</p>
-<p>Therefore, users seeking to leverage OpenMP with large datasets, OpenBLAS needs to openmp and not pthread support.</p>
-<p>By default environments such as conda will not install openmp supported versions.</p>
+<p><a href="https://arma.sourceforge.net/faq.html#speed" class="external-link">Armadillo can leverage the OpenMP backend</a> to provide multithread support for its operations. Overall, performance benefits are negligible for small datasets. For &gt;10M cells, the algorithm can benefit from the OpenMP backend.</p>
 <div class="section level2">
-<h2 id="install-openmp-compatible-openblas">Install OpenMP compatible OpenBLAS<a class="anchor" aria-label="anchor" href="#install-openmp-compatible-openblas"></a></h2>
+<h2 id="step-1---install-openmp-compatible-openblas">Step 1 - Install OpenMP compatible OpenBLAS<a class="anchor" aria-label="anchor" href="#step-1---install-openmp-compatible-openblas"></a></h2>
+<p>To utilize OpenMP, we first need need to install an OpenBLAS library with OpenMP support, instead of pthreads. This version of OpenBLAS which will allow for proper multithreading control and support when used in conjuction with Armadillo.</p>
 <div class="section level3">
 <h3 id="option-1---conda-easy">Option 1 - Conda (easy)<a class="anchor" aria-label="anchor" href="#option-1---conda-easy"></a></h3>
-<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">conda</span> activate myenv</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="ex">conda</span> install <span class="at">-c</span> conda-forge <span class="at">--override-channels</span> r-base blas=<span class="pp">*</span>=<span class="pp">*</span>openblas<span class="pp">*</span> openblas=<span class="pp">*</span>=<span class="pp">*</span>openmp<span class="pp">*</span></span></code></pre></div>
+<p>By default, OpenBLAS on conda ships with the ‘pthreads’ backend for multi-threading which is incompatible with OpenMP. Therefore, users seeking to leverage OpenMP with large datasets, OpenBLAS needs to openmp and not pthread support.</p>
+<p>By default environments such as conda will not install openmp supported versions.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="ex">conda</span> activate myenv</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="ex">conda</span> install <span class="at">-c</span> conda-forge <span class="at">--override-channels</span> r-base blas=<span class="pp">*</span>=<span class="pp">*</span>openblas<span class="pp">*</span> openblas=<span class="pp">*</span>=<span class="pp">*</span>openmp<span class="pp">*</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="option-2---build-openblas-from-source-hard">Option 2 - build OpenBLAS from source (hard)<a class="anchor" aria-label="anchor" href="#option-2---build-openblas-from-source-hard"></a></h3>
-<p>Build openblas from source using the <code>USE_OPENMP=1</code> option.</p>
+<p>Build openblas from source using the <code>USE_OPENMP=1</code> option. After building, you will need to link the library binaries to your R install. You also need to have OpenMP installed in your environment.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="enable-openmp-support-in-harmony">Enable OpenMP support in Harmony<a class="anchor" aria-label="anchor" href="#enable-openmp-support-in-harmony"></a></h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/immunogenomics/harmony/</span></code></pre></div>
+<h2 id="step-2---enable-openmp-support-in-harmony">Step 2 - Enable OpenMP support in Harmony<a class="anchor" aria-label="anchor" href="#step-2---enable-openmp-support-in-harmony"></a></h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/immunogenomics/harmony/</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal"><li>Add OpenMP compilation flag</li>
-</ol><p>Uncomment/Include <code>PKG_CXXFLAGS = $(SHLIB_OPENMP_CXXFLAGS)</code> in the <sub>src/Makevars</sub> file.</p>
+</ol><p>Uncomment <code>PKG_CXXFLAGS="${PKG_CXXFLAGS} $(SHLIB_OPENMP_CXXFLAGS)"</code> in the <sub>src/configure</sub> file.</p>
 <p>This line will include OpenMP during the compilation uses an incorrect version of OpenBLAS you will get a flood of messages.</p>
 <ol start="3" style="list-style-type: decimal"><li>Install harmony in R from the local directory</li>
-</ol><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_local.html" class="external-link">install_local</a></span><span class="op">(</span><span class="st">"harmony"</span>, force<span class="op">=</span><span class="cn">T</span>, upgrade<span class="op">=</span><span class="cn">F</span><span class="op">)</span></span></code></pre></div>
+</ol><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_local.html" class="external-link">install_local</a></span><span class="op">(</span><span class="st">"&lt;local-harmoyny-directory&gt;"</span>, force<span class="op">=</span><span class="cn">T</span>, upgrade<span class="op">=</span><span class="cn">F</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="ensure-that-harmony-runs-properly">Ensure that harmony runs properly<a class="anchor" aria-label="anchor" href="#ensure-that-harmony-runs-properly"></a></h2>
+<h2 id="step-3---ensure-that-harmony-runs-properly-with-openmp-support">Step 3 - Ensure that harmony runs properly with OpenMP support<a class="anchor" aria-label="anchor" href="#step-3---ensure-that-harmony-runs-properly-with-openmp-support"></a></h2>
 <p>You should <em>not</em> get messages as the following:</p>
 <p><code>OpenBLAS Warning : Detect OpenMP Loop and this application may hang. Please rebuild the library with USE_OPENMP=1 option.</code></p>
 <p>While the algorithm does not fail, its correctness has not been tested and can not be guaranteed.</p>
