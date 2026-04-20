@@ -1,0 +1,24 @@
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/PERFORMANCE.html</loc></url>
+<url><loc>/articles/Seurat.html</loc></url>
+<url><loc>/articles/detailedWalkthrough.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/quickstart.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/reference/RunHarmony.Seurat.html</loc></url>
+<url><loc>/reference/RunHarmony.SingleCellExperiment.html</loc></url>
+<url><loc>/reference/RunHarmony.default.html</loc></url>
+<url><loc>/reference/RunHarmony.html</loc></url>
+<url><loc>/reference/cell_lines.html</loc></url>
+<url><loc>/reference/cell_lines_small.html</loc></url>
+<url><loc>/reference/harmony-package.html</loc></url>
+<url><loc>/reference/harmony.html</loc></url>
+<url><loc>/reference/harmony_options.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/pbmc.ctrl.html</loc></url>
+<url><loc>/reference/pbmc.stim.html</loc></url>
+<url><loc>/reference/pipe.html</loc></url>
+</urlset>
+
