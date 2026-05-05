@@ -19,7 +19,7 @@ on cell embedding matrix."><meta property="og:image" content="/logo.png"><!-- ma
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">harmony</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.2</span>
       </span>
     </div>
 
@@ -43,6 +43,9 @@ on cell embedding matrix."><meta property="og:image" content="/logo.png"><!-- ma
       <a href="../articles/Seurat.html">Using harmony in Seurat</a>
     </li>
   </ul></li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/immunogenomics/harmony/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
@@ -229,11 +232,11 @@ parameters not listed above and more details.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 300  20</span>
 <span class="r-in"><span><span class="va">harmony_embeddings</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                X1            X2            X3            X4            X5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  0.007770998 -0.0044285185 -2.658067e-03 -0.0079813693 -0.0001508195</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.011452863  0.0007276849 -2.526561e-04 -0.0015449575  0.0034087112</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  0.009720036 -0.0083047664 -9.797361e-05 -0.0042609675 -0.0007274408</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]  0.009570926 -0.0030485140  7.086939e-04 -0.0075727096 -0.0012533891</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] -0.009786356  0.0028862588 -3.220626e-03 -0.0002428817  0.0008977586</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  0.007773329 -0.0042590057 -0.0026586596 -0.0079929428 -0.0001249774</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.011549538  0.0007105516 -0.0002606400 -0.0015166284  0.0034766246</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  0.009708795 -0.0081777610 -0.0001178234 -0.0043240977 -0.0007374078</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]  0.009583721 -0.0029602859  0.0007215827 -0.0075096940 -0.0012319371</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] -0.009981599  0.0028815679 -0.0032585005 -0.0002035595  0.0010264877</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Finally, we can return an object with all the underlying data structures</span></span></span>
 <span class="r-in"><span><span class="va">harmony_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="RunHarmony.html">RunHarmony</a></span><span class="op">(</span><span class="va">pca_matrix</span>, <span class="va">meta_data</span>, <span class="st">'dataset'</span>, return_object<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -252,12 +255,12 @@ parameters not listed above and more details.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  20 300</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">harmony_object</span><span class="op">$</span><span class="va">O</span><span class="op">)</span> <span class="co">## batch by cluster co-occurence matrix</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]         [,2]         [,3]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 20.79351997 1.927618e+00 6.266189e-06</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 15.79600239 3.747352e-08 2.994562e+01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  1.08318412 1.681248e+01 2.187659e-07</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 10.19679642 7.671215e-07 1.904781e+01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]  0.08097884 2.317920e+01 1.588407e-07</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] 21.26292419 4.868720e-01 1.358413e-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 20.69381332 1.900456e+00 9.631869e-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 19.76396179 4.696176e-08 3.403356e+01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  1.10856903 1.152120e+01 6.411734e-07</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]  0.73785681 2.591352e+01 1.956780e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]  0.04386707 2.085003e+01 4.416149e-07</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] 21.31146431 5.917082e-01 2.078806e-06</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

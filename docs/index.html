@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">harmony</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.2</span>
       </span>
     </div>
 
@@ -64,6 +64,9 @@
       <a href="articles/Seurat.html">Using harmony in Seurat</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -91,7 +94,7 @@
 </h1></div>
 <p><a href="https://CRAN.R-project.org/package=harmony" class="external-link"><img src="https://www.r-pkg.org/badges/version/harmony" alt="CRAN status"></a> <a href="https://doi.org/10.64898/2026.03.16.711825" class="external-link"><img src="https://zenodo.org/badge/doi/10.1038/s41592-019-0619-0.svg" alt="DOI"></a></p>
 <p><em>Integration of large, complex single-cell datasets with Harmony2</em></p>
-<p>Check out our pre-print in biorxiv: - <a href="https://doi.org/10.64898/2026.03.16.711825" class="external-link">nature website</a> - <a href="https://www.nature.com/articles/s41592-019-0619-0.epdf?shared_access_token=rDg_Rd07lrFXExt_ySj7V9RgN0jAjWel9jnR3ZoTv0NfDJkKCfDV_X9Mq3lweQmKiXEXxhrebQRjJEZdc-xNv6-7ZN1XotlD_mo5TSS4Z4eWn-kUo6mBwA5dEAKlTfR8OT6E10MZY_E-906ajbzvgg%3D%3D" class="external-link">Previous version of harmony</a> - <a href="https://korsunskylab.github.io/harmony2/" class="external-link">package website</a></p>
+<p>Check out our pre-print in biorxiv: - <a href="https://doi.org/10.64898/2026.03.16.711825" class="external-link">Preprint</a> - <a href="https://www.nature.com/articles/s41592-019-0619-0.epdf?shared_access_token=rDg_Rd07lrFXExt_ySj7V9RgN0jAjWel9jnR3ZoTv0NfDJkKCfDV_X9Mq3lweQmKiXEXxhrebQRjJEZdc-xNv6-7ZN1XotlD_mo5TSS4Z4eWn-kUo6mBwA5dEAKlTfR8OT6E10MZY_E-906ajbzvgg%3D%3D" class="external-link">Harmony v1 manuscript</a> - <a href="https://korsunskylab.github.io/harmony2/" class="external-link">package website</a></p>
 <p>For Python users, check out the <a href="https://github.com/slowkow/harmonypy" class="external-link">harmonypy package</a> by Kamil Slowikowski.</p>
 </div>
 <div class="section level1">
@@ -102,9 +105,11 @@
 <div class="section level1">
 <h1 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h1>
-<p><del>To run Harmony, open R and install harmony from CRAN (15 seconds):</del> Currently harmony has not been upstreamed to CRAN.</p>
-<p>To install Harmony2 please use the development version from github directly (should take less than 5 minutes):</p>
+<p>To install Harmony2, from CRAN (takes approximately 15 seconds):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"harmony"</span><span class="op">)</span></span></code></pre></div>
+<p>To install Harmony2 from github (development version) from github directly (should take less than 5 minutes):</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"immunogenomics/harmony"</span>, build_vignettes<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level1">
@@ -119,7 +124,7 @@
 </h3>
 <p>Check out this <a href="https://korsunskylab.github.io/harmony2/articles/quickstart.html" class="external-link">vignette</a> for a quick start tutorial which demonstrates the usage of the tool in standalone mode (~4 seconds).</p>
 <p>At minimum the following parameters need to be specified to achieve an integration. For a few samples &lt; 100K cells integration should finish within seconds.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/immunogenomics/harmony" class="external-link">harmony</a></span><span class="op">)</span></span>
 <span><span class="va">my_harmony_embeddings</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/RunHarmony.html">RunHarmony</a></span><span class="op">(</span><span class="va">my_pca_embeddings</span>, <span class="va">meta_data</span>, <span class="st">"dataset"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -129,7 +134,7 @@
 </h2>
 <p>By default, the harmony API works on Seurats PCA cell embeddings and corrects them. You can run Harmony within your Seurat workflow with <code><a href="reference/RunHarmony.html">RunHarmony()</a></code>. Prior <code><a href="reference/RunHarmony.html">RunHarmony()</a></code> the PCA cell embeddings need to be precomputed through Seurat’s API. For downstream analyses, use the <code>harmony</code> embeddings instead of <code>pca</code>.</p>
 <p>For example, the following snippet run Harmony and then calculates UMAP of the corrected input embeddings:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">seuratObj</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/RunHarmony.html">RunHarmony</a></span><span class="op">(</span><span class="va">seuratObj</span>, <span class="st">"dataset"</span><span class="op">)</span></span>
 <span><span class="va">seuratObj</span> <span class="op">&lt;-</span> <span class="fu">RunUMAP</span><span class="op">(</span><span class="va">seuratObj</span>, reduction <span class="op">=</span> <span class="st">"harmony"</span><span class="op">)</span></span></code></pre></div>
 <p>For a more detailed overview of the <code><a href="reference/RunHarmony.html">RunHarmony()</a></code> Seurat interface check, the <a href="https://korsunskylab.github.io/harmony2/articles/Seurat.html" class="external-link">Seurat vignette</a></p>
@@ -138,12 +143,12 @@
 <h2 id="harmony-with-two-or-more-covariates">Harmony with two or more covariates<a class="anchor" aria-label="anchor" href="#harmony-with-two-or-more-covariates"></a>
 </h2>
 <p>Harmony can integrate over multiple covariates. To do this, specify a vector covariates to integrate.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_harmony_embeddings</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/RunHarmony.html">RunHarmony</a></span><span class="op">(</span></span>
 <span>  <span class="va">my_pca_embeddings</span>, <span class="va">meta_data</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span>, <span class="st">"donor"</span>, <span class="st">"batch_id"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p>Do the same with your Seurat object:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">seuratObject</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/RunHarmony.html">RunHarmony</a></span><span class="op">(</span><span class="va">seuratObject</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dataset"</span>, <span class="st">"donor"</span>, <span class="st">"batch_id"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
